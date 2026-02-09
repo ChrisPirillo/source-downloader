@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Source Downloader | Webpage Source Code Viewer & Extractor</title>
+    
+    <!-- SEO & Metadata -->
+    <meta name="description" content="Source Downloader is a free developer utility to fetch, view, and download website source code. Bypass CORS restrictions, inspect HTML, and debug web pages directly in your browser.">
+    <meta name="keywords" content="source code downloader, html viewer, bypass cors, view source mobile, web scraper tool, developer utilities, html editor, Chris Pirillo, webpage extractor">
+    <meta name="author" content="Chris Pirillo">
+    <link rel="canonical" href="https://pirillo.com/arcade/source-downloader.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pirillo.com/arcade/source-downloader.html">
+    <meta property="og:title" content="Source Downloader | Webpage Source Code Viewer">
+    <meta property="og:description" content="Effortlessly fetch, view, and download website source code. A robust tool for developers to bypass CORS and inspect HTML structure.">
+    <meta property="og:image" content="https://pirillo.com/arcade/images/source-downloader.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://pirillo.com/arcade/source-downloader.html">
+    <meta name="twitter:title" content="Source Downloader | Webpage Source Code Viewer">
+    <meta name="twitter:description" content="Effortlessly fetch, view, and download website source code. A robust tool for developers to bypass CORS and inspect HTML structure.">
+    <meta name="twitter:image" content="https://pirillo.com/arcade/images/source-downloader.png">
+    <meta name="twitter:creator" content="@ChrisPirillo">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Source Downloader",
+      "url": "https://pirillo.com/arcade/source-downloader.html",
+      "image": "https://pirillo.com/arcade/images/source-downloader.png",
+      "description": "A web-based tool to fetch, view, edit, and download website source code, featuring CORS bypass capabilities and syntax highlighting.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "author": {
+        "@type": "Person",
+        "name": "Chris Pirillo",
+        "url": "https://chris.pirillo.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1CQ4D3VQ3L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1CQ4D3VQ3L');
+    </script>
+
+    <!-- Fonts & Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Neumorphic Palette */
+            --nm-bg-color: #e0e5ec;
+            --nm-light-shadow: #ffffff;
+            --nm-dark-shadow: #a3b1c6;
+            --nm-text-color: #3e516d;
+            --nm-accent-color: #4a7bfc;
+            --nm-accent-hover: #3b66d4;
+            --nm-error: #ef4444;
+            --nm-success: #10b981;
+
+            /* Syntax Highlighting Palette */
+            --sh-comment: #9ca3af;
+            --sh-punctuation: #6b7280;
+            --sh-string: #10b981;
+            --sh-number: #f59e0b;
+            --sh-tag: #ef4444;
+            --sh-tag-custom: #7c3aed;
+            --sh-attr: #d97706;
+            --sh-event: #db2777;
+            --sh-entity: #8b5cf6;
+            --sh-doctype: #ec4899;
+            --sh-keyword: #8b5cf6;
+            --sh-flow: #d946ef;
+            --sh-decl: #2563eb;
+            --sh-operator-kw: #059669;
+            --sh-this: #e11d48;
+            --sh-function: #3b82f6;
+            --sh-method: #0ea5e9;
+            --sh-property: #06b6d4;
+            --sh-builtin: #14b8a6;
+            --sh-operator: #6366f1;
+            --sh-bool: #f97316;
+            --sh-literal: #ea580c;
+            --sh-regex: #84cc16;
+            --sh-selector-id: #ec4899;
+            --sh-selector-class: #f59e0b;
+            --sh-at-rule: #a855f7;
+            --sh-pseudo: #f43f5e;
+            --sh-unit: #f97316;
+            --sh-variable: #ef4444;
+            --sh-important: #dc2626;
+            --sh-css-func: #3b82f6;
+            --sh-hex: #06b6d4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--nm-bg-color);
+            color: var(--nm-text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 1rem;
+            position: relative; /* For Help Button positioning */
+        }
+
+        /* Neumorphic Typography */
+        h1 {
+            margin-top: 0;
+            color: var(--nm-text-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            text-shadow: 1px 1px 1px var(--nm-light-shadow);
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--nm-text-color);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* Neumorphic Input */
+        .input-group {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 50px;
+            background: var(--nm-bg-color);
+            box-shadow: inset 6px 6px 12px var(--nm-dark-shadow), 
+                        inset -6px -6px 12px var(--nm-light-shadow);
+            color: var(--nm-text-color);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: inset 4px 4px 8px var(--nm-dark-shadow), 
+                        inset -4px -4px 8px var(--nm-light-shadow);
+            color: var(--nm-accent-color);
+        }
+
+        /* Neumorphic Buttons */
+        .btn {
+            padding: 14px 28px;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            background: var(--nm-bg-color);
+            box-shadow: 6px 6px 12px var(--nm-dark-shadow), 
+                        -6px -6px 12px var(--nm-light-shadow);
+            color: var(--nm-accent-color);
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 120px;
+        }
+
+        .btn:hover:not(:disabled) {
+            color: var(--nm-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px var(--nm-dark-shadow), 
+                        -8px -8px 16px var(--nm-light-shadow);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: inset 4px 4px 8px var(--nm-dark-shadow), 
+                        inset -4px -4px 8px var(--nm-light-shadow);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            color: var(--nm-text-color);
+        }
+
+        .btn-primary {
+            color: var(--nm-accent-color);
+        }
+        
+        .btn-success {
+            color: var(--nm-success);
+        }
+
+        /* Editor Area */
+        #editorWrapper {
+            position: relative;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 16px var(--nm-dark-shadow), 
+                        inset -8px -8px 16px var(--nm-light-shadow);
+            background-color: var(--nm-bg-color);
+            overflow: hidden;
+            height: 60vh;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .editor-component {
+            margin: 0;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 21px;
+            tab-size: 4;
+            -moz-tab-size: 4;
+            background: transparent;
+            white-space: pre;
+            border: none;
+            outline: none;
+        }
+
+        #lineNumbers {
+            width: 50px; 
+            text-align: right;
+            user-select: none;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            padding-right: 0.5rem;
+            padding-left: 0.25rem;
+            color: var(--nm-dark-shadow);
+            opacity: 0.8;
+            z-index: 2;
+            background: rgba(0,0,0,0.02);
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        #editorContainer {
+            position: relative;
+            height: 100%;
+            margin-left: 50px; 
+        }
+
+        #editor, #highlightingPane {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            padding: 1.5rem;
+        }
+
+        #editor {
+            z-index: 1;
+            color: transparent; 
+            caret-color: var(--nm-text-color);
+            background-color: transparent;
+            resize: none;
+        }
+
+        #editor::selection {
+            background: rgba(74, 123, 252, 0.2); 
+            color: transparent;
+        }
+
+        #highlightingPane {
+            z-index: 0;
+            pointer-events: none;
+            color: var(--nm-text-color);
+        }
+
+        /* Hide Scrollbars in Pane but keep in Editor */
+        #highlightingPane::-webkit-scrollbar { display: none; }
+        #highlightingPane { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Status Bar */
+        #status {
+            margin-bottom: 15px;
+            font-weight: 500;
+            min-height: 24px;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 0 10px;
+        }
+        .status-loading { color: var(--nm-accent-color); }
+        .status-success { color: var(--nm-success); }
+        .status-error { color: var(--nm-error); }
+
+        /* Action Row */
+        .action-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        /* Toast Message */
+        .message-box {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--nm-bg-color);
+            color: var(--nm-text-color);
+            padding: 12px 30px;
+            border-radius: 50px;
+            box-shadow: 6px 6px 12px var(--nm-dark-shadow), 
+                        -6px -6px 12px var(--nm-light-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        
+        .message-box.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Help Button & Modal Styles */
+        .help-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 0;
+            min-width: unset;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(62, 81, 109, 0.3); /* Dimmed background */
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--nm-bg-color);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 8px 8px 16px var(--nm-dark-shadow), 
+                        -8px -8px 16px var(--nm-light-shadow);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal h3 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: var(--nm-accent-color);
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            text-align: left;
+        }
+
+        .term-block {
+            margin-bottom: 1.5rem;
+            /* Removed borders/HRs */
+        }
+
+        .term-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .term-block h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--nm-text-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .term-block p {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--nm-text-color);
+            opacity: 0.9;
+        }
+        
+        .term-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .term-warning {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.08);
+            border-left: 4px solid var(--nm-error);
+            border-radius: 8px;
+            color: var(--nm-error) !important;
+            font-size: 0.9rem !important;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: var(--nm-text-color);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--nm-error);
+        }
+
+        /* Syntax Highlighting Classes */
+        .tok-comment { color: var(--sh-comment); font-style: italic; }
+        .tok-tag { color: var(--sh-tag); }
+        .tok-tag-custom { color: var(--sh-tag-custom); font-weight: bold; }
+        .tok-punctuation { color: var(--sh-punctuation); }
+        .tok-attr { color: var(--sh-attr); }
+        .tok-event { color: var(--sh-event); font-style: italic; }
+        .tok-string { color: var(--sh-string); }
+        .tok-entity { color: var(--sh-entity); }
+        .tok-doctype { color: var(--sh-doctype); font-weight: bold; }
+        .tok-keyword { color: var(--sh-keyword); font-weight: bold; }
+        .tok-flow { color: var(--sh-flow); font-weight: bold; }
+        .tok-decl { color: var(--sh-decl); font-weight: bold; }
+        .tok-operator-kw { color: var(--sh-operator-kw); }
+        .tok-this { color: var(--sh-this); font-style: italic; font-weight: bold; }
+        .tok-literal { color: var(--sh-literal); }
+        .tok-function { color: var(--sh-function); }
+        .tok-number { color: var(--sh-number); }
+        .tok-property { color: var(--sh-property); }
+        .tok-selector-id { color: var(--sh-selector-id); font-weight: bold; }
+        .tok-selector-class { color: var(--sh-selector-class); font-weight: bold; }
+        .tok-operator { color: var(--sh-operator); }
+        .tok-builtin { color: var(--sh-builtin); }
+        .tok-at-rule { color: var(--sh-at-rule); }
+        .tok-pseudo { color: var(--sh-pseudo); }
+        .tok-unit { color: var(--sh-unit); }
+        .tok-variable { color: var(--sh-variable); }
+        .tok-important { color: var(--sh-important); font-weight: bold; }
+        .tok-bool { color: var(--sh-bool); font-weight: bold; }
+        .tok-regex { color: var(--sh-regex); }
+        .tok-method { color: var(--sh-method); }
+        .tok-css-func { color: var(--sh-css-func); }
+        .tok-hex { color: var(--sh-hex); }
+
+        @media (max-width: 650px) {
+            .controls { flex-direction: column; align-items: stretch; }
+            .action-row { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <!-- Help Button (Top Right) -->
+        <button class="btn help-btn" onclick="toggleModal()" aria-label="Terms and Info">
+            ?
+        </button>
+
+        <header>
+            <h1>Source Downloader</h1>
+            <p class="subtitle">Enter a URL to fetch source code. Supports bypassing CORS.</p>
+        </header>
+
+        <section class="controls" aria-label="URL Input Controls">
+            <div class="input-group">
+                <input type="text" id="urlInput" aria-label="Website URL" placeholder="https://example.com" value="https://example.com">
+            </div>
+            <button onclick="fetchWebpage()" id="fetchBtn" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Fetch
+            </button>
+        </section>
+
+        <div id="status" aria-live="polite"></div>
+        
+        <section id="editorWrapper" aria-label="Source Code Editor">
+            <pre id="lineNumbers" class="editor-component" aria-hidden="true"></pre>
+            <div id="editorContainer">
+                <textarea id="editor" class="editor-component" wrap="off" spellcheck="false" placeholder="The page source will appear here..." aria-label="Code Editor"></textarea>
+                <pre id="highlightingPane" class="editor-component" aria-hidden="true"><code></code></pre>
+            </div>
+        </section>
+
+        <section class="action-row" aria-label="Editor Actions">
+            <button onclick="copyToClipboard()" class="btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy Code
+            </button>
+            <button onclick="downloadHTML()" class="btn btn-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/></svg>
+                Download .html
+            </button>
+        </section>
+    </main>
+
+    <div id="messageBox" class="message-box" role="alert"></div>
+
+    <!-- Terms Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <h3>Terms & Disclaimers</h3>
+            <div class="modal-body">
+                <div class="term-block">
+                    <h4>1. Educational Use Only</h4>
+                    <p>This tool is a client-side utility designed for debugging, educational analysis, and legitimate "View Source" capabilities. Do not use this tool to scrape data, bypass paywalls, or access content you do not have the right to view.</p>
+                </div>
+                
+                <div class="term-block">
+                    <h4>2. Third-Party Proxies</h4>
+                    <p>To bypass CORS restrictions, your request is routed through public third-party proxies (e.g., <em>AllOrigins</em>, <em>CodeTabs</em>).</p>
+                    <div class="term-warning">
+                        ⚠ Privacy Note: The URL you fetch is sent to these services. Do not fetch pages containing sensitive personal data (PII) or authentication tokens.
+                    </div>
+                </div>
+                
+                <div class="term-block">
+                    <h4>3. No Warranty</h4>
+                    <p>This software is provided "as is." The availability of the proxy services is outside our control. If the public proxies are rate-limited or down, this tool may temporarily fail to fetch content.</p>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="toggleModal()">I Understand</button>
+        </div>
+    </div>
+
+    <script>
+        // --- UI & Utility Logic ---
+
+        function showMessage(text, duration = 3000) {
+            const box = document.getElementById('messageBox');
+            box.textContent = text;
+            box.classList.add('show');
+            setTimeout(() => {
+                box.classList.remove('show');
+            }, duration);
+        }
+
+        function setStatus(text, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = text;
+            statusDiv.className = ''; 
+            if (type) statusDiv.classList.add(type);
+        }
+
+        // --- Fetch Logic (Robust Proxy System) ---
+
+        async function fetchWebpage() {
+            const urlInput = document.getElementById('urlInput');
+            const editor = document.getElementById('editor');
+            const fetchBtn = document.getElementById('fetchBtn');
+            let url = urlInput.value.trim();
+
+            if (!url) {
+                showMessage("Please enter a valid URL");
+                urlInput.focus();
+                return;
+            }
+
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url;
+                urlInput.value = url;
+            }
+
+            fetchBtn.disabled = true;
+            fetchBtn.innerHTML = 'Fetching...';
+            editor.value = "";
+            updateView(); // Clear highlighting
+            setStatus("Fetching... (trying multiple proxies)", "status-loading");
+
+            const encodedUrl = encodeURIComponent(url);
+            const strategies = [
+                {
+                    name: 'AllOrigins (JSON)',
+                    url: `https://api.allorigins.win/get?url=${encodedUrl}`,
+                    type: 'json'
+                },
+                {
+                    name: 'CodeTabs',
+                    url: `https://api.codetabs.com/v1/proxy?quest=${encodedUrl}`,
+                    type: 'text'
+                },
+                {
+                    name: 'AllOrigins (Raw)',
+                    url: `https://api.allorigins.win/raw?url=${encodedUrl}`,
+                    type: 'text'
+                }
+            ];
+
+            let content = null;
+            let errorMsg = "";
+
+            for (const strategy of strategies) {
+                try {
+                    console.log(`Attempting fetch via ${strategy.name}...`);
+                    const response = await fetch(strategy.url);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                    if (strategy.type === 'json') {
+                        const data = await response.json();
+                        if (data.contents) content = data.contents;
+                        else throw new Error("No content in JSON response");
+                    } else {
+                        content = await response.text();
+                    }
+
+                    if (content && content.trim().length > 0) {
+                        setStatus(`Success! Source retrieved via ${strategy.name}.`, "status-success");
+                        editor.value = content;
+                        updateView(); // Trigger Highlighting
+                        break; 
+                    } else {
+                        throw new Error("Empty content received");
+                    }
+
+                } catch (e) {
+                    console.warn(`${strategy.name} failed:`, e);
+                    errorMsg = e.message;
+                }
+            }
+
+            if (!content) {
+                setStatus("Failed to fetch content.", "status-error");
+                editor.value = `Error: Could not fetch the webpage.\n\nPossible reasons:\n1. The URL is invalid or down.\n2. The website blocks proxies.\n\nLast Error: ${errorMsg}`;
+                updateView();
+            }
+
+            fetchBtn.disabled = false;
+            fetchBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Fetch`;
+        }
+
+        // --- Action Logic ---
+
+        function copyToClipboard() {
+            const editor = document.getElementById('editor');
+            if (!editor.value) {
+                showMessage("Nothing to copy yet!");
+                return;
+            }
+            editor.select();
+            editor.setSelectionRange(0, 99999);
+            try {
+                if(document.execCommand('copy')) showMessage("Copied to clipboard!");
+                else showMessage("Unable to copy.");
+            } catch (err) {
+                showMessage("Error copying.");
+            }
+            window.getSelection().removeAllRanges();
+        }
+
+        function downloadHTML() {
+            const fileContent = document.getElementById('editor').value;
+            if (!fileContent || fileContent.trim() === '') {
+                showMessage("Nothing to download!");
+                return;
+            }
+
+            // Extract Title for Filename
+            const titleMatch = fileContent.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+            let filename = 'extracted_page.html';
+            if (titleMatch && titleMatch[1]) {
+                 const rawTitle = titleMatch[1].trim();
+                 if (rawTitle) {
+                    filename = rawTitle.replace(/[^a-z0-9\s-]/gi, '').replace(/\s+/g, '_') + '.html';
+                 }
+            }
+            
+            const blob = new Blob([fileContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- Modal Logic ---
+
+        function toggleModal() {
+            const modal = document.getElementById('termsModal');
+            const isShowing = modal.classList.contains('show');
+            
+            if (isShowing) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300); // Wait for fade out
+            } else {
+                modal.style.display = 'flex';
+                // Force reflow to enable transition
+                void modal.offsetWidth; 
+                modal.classList.add('show');
+            }
+        }
+
+        // Close modal when clicking outside the content box
+        window.onclick = function(event) {
+            const modal = document.getElementById('termsModal');
+            if (event.target == modal) {
+                toggleModal();
+            }
+        }
+
+        // --- SYNTAX HIGHLIGHTING ENGINE ---
+
+        const editor = document.getElementById('editor');
+        const lineNumbers = document.getElementById('lineNumbers');
+        const highlightingPane = document.getElementById('highlightingPane').querySelector('code');
+        const highlightingContainer = document.getElementById('highlightingPane');
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function highlightEntities(text) {
+             return text.replace(/&amp;[a-zA-Z0-9#]+;/g, match => `<span class="tok-entity">${match}</span>`);
+        }
+
+        function highlightJS(text) {
+            const controlKws = 'break|case|catch|continue|debugger|default|do|else|finally|for|if|return|switch|throw|try|while|with|yield|await';
+            const declKws = 'class|const|function|let|var|import|export|from|extends|implements|interface|package|private|protected|public|static|async';
+            const operatorKws = 'delete|in|instanceof|new|typeof|void';
+            
+            return text.replace(
+                new RegExp(
+                    `(\\/\\/.*|\\/\\*[\\s\\S]*?\\*\\/)|` + 
+                    `(\\/[^\n\\/]+\\/[gimuy]*)|` + 
+                    `(?<!\\w)(["'\\\`])(?:\\\\.|[^\\\\])*?\\3|` + 
+                    `\\b(${controlKws})\\b|` + 
+                    `\\b(${declKws})\\b|` + 
+                    `\\b(${operatorKws})\\b|` + 
+                    `\\b(this)\\b|` + 
+                    `\\b(true|false)\\b|` + 
+                    `\\b(null|undefined)\\b|` + 
+                    `\\b(console|window|document|Math|JSON|Array|Object|String|Number|Boolean|Date|Promise|Map|Set)\\b|` + 
+                    `(\\.\\w+)(?=\\()|` + 
+                    `(\\.\\w+)|` + 
+                    `\\b\\d+\\b|` + 
+                    `(\\w+)(?=\\()|` + 
+                    `(=|!|\\+|-|\\*|\\/|%|\\^|&|\\||<|>|\\?|:)`, 
+                'g'),
+                (match, comment, regexLit, quote, control, decl, opKw, thisKw, bool, literal, builtin, methodCall, prop, number, funcName, operator) => {
+                    if (comment) return `<span class="tok-comment">${escapeHtml(match)}</span>`;
+                    if (regexLit && !regexLit.startsWith('//')) return `<span class="tok-regex">${escapeHtml(match)}</span>`;
+                    if (quote) return `<span class="tok-string">${escapeHtml(match)}</span>`;
+                    if (control) return `<span class="tok-flow">${escapeHtml(match)}</span>`;
+                    if (decl) return `<span class="tok-decl">${escapeHtml(match)}</span>`;
+                    if (opKw) return `<span class="tok-operator-kw">${escapeHtml(match)}</span>`;
+                    if (thisKw) return `<span class="tok-this">${escapeHtml(match)}</span>`;
+                    if (bool) return `<span class="tok-bool">${escapeHtml(match)}</span>`;
+                    if (literal) return `<span class="tok-literal">${escapeHtml(match)}</span>`;
+                    if (builtin) return `<span class="tok-builtin">${escapeHtml(match)}</span>`;
+                    if (methodCall) return `<span class="tok-method">${escapeHtml(match)}</span>`;
+                    if (prop) return `<span class="tok-property">${escapeHtml(match)}</span>`;
+                    if (funcName) return `<span class="tok-function">${escapeHtml(match)}</span>`;
+                    if (operator) return `<span class="tok-operator">${escapeHtml(match)}</span>`;
+                    if (number || !isNaN(match)) return `<span class="tok-number">${escapeHtml(match)}</span>`;
+                    return escapeHtml(match);
+                }
+            );
+        }
+
+        function highlightCSS(text) {
+            const regex = /(!\s*important)|(\/\*[\s\S]*?\*\/)|(["'])(?:\\.|[^\\])*?\3|(@[\w-]+)|([\w-]+\()|(#[0-9a-fA-F]{3,8}\b)|(::?[\w-]+)|(#[a-zA-Z0-9_-]+)|(\.[a-zA-Z0-9_-]+)|(--[\w-]+)|([\w-]+)(?=\s*:)|(\d*\.?\d+(?:px|em|rem|%|vh|vw|s|ms|deg|fr)?)|([:;{}])/g;
+            return text.replace(regex, 
+            (match, important, comment, quote, atRule, func, hex, pseudo, idSelector, classSelector, variable, prop, unit, punct) => {
+                if (important) return `<span class="tok-important">${escapeHtml(match)}</span>`;
+                if (comment) return `<span class="tok-comment">${escapeHtml(match)}</span>`;
+                if (quote) return `<span class="tok-string">${escapeHtml(match)}</span>`;
+                if (atRule) return `<span class="tok-at-rule">${escapeHtml(match)}</span>`;
+                if (func) return `<span class="tok-css-func">${escapeHtml(match)}</span>`;
+                if (hex) return `<span class="tok-hex">${escapeHtml(match)}</span>`;
+                if (pseudo) return `<span class="tok-pseudo">${escapeHtml(match)}</span>`;
+                if (idSelector) return `<span class="tok-selector-id">${escapeHtml(match)}</span>`;
+                if (classSelector) return `<span class="tok-selector-class">${escapeHtml(match)}</span>`;
+                if (variable) return `<span class="tok-variable">${escapeHtml(match)}</span>`;
+                if (prop) return `<span class="tok-property">${escapeHtml(match)}</span>`;
+                if (unit) return `<span class="tok-unit">${escapeHtml(match)}</span>`;
+                if (punct) return `<span class="tok-punctuation">${escapeHtml(match)}</span>`;
+                return escapeHtml(match);
+            });
+        }
+
+        function highlightTag(tagContent) {
+            if (/^<!DOCTYPE/i.test(tagContent)) return `<span class="tok-doctype">${escapeHtml(tagContent)}</span>`;
+            
+            const regex = /("[\s\S]*?"|'[\s\S]*?'|[a-zA-Z0-9:-]+(?=\s*=)|<\/?[\w:-]+|\/?>|[\s\S])/g;
+            return tagContent.replace(regex, (match) => {
+                if (match.startsWith('"') || match.startsWith("'")) return `<span class="tok-string">${escapeHtml(match)}</span>`;
+                if (match.match(/^[a-zA-Z0-9:-]+$/) && tagContent.includes(match + '=')) {
+                     if (match.startsWith('on') && match.length > 2) return `<span class="tok-event">${escapeHtml(match)}</span>`;
+                     return `<span class="tok-attr">${escapeHtml(match)}</span>`;
+                }
+                if (match.match(/^<\/?[\w:-]+/)) {
+                    return match.replace(/^(<\/?)([\w:-]+)/, (m, punctuation, name) => {
+                        const isCustom = /^[A-Z]/.test(name);
+                        const tagClass = isCustom ? 'tok-tag-custom' : 'tok-tag';
+                        return `<span class="tok-punctuation">${escapeHtml(punctuation)}</span><span class="${tagClass}">${escapeHtml(name)}</span>`;
+                    });
+                }
+                if (match === '>' || match === '/>') return `<span class="tok-punctuation">${escapeHtml(match)}</span>`;
+                return escapeHtml(match);
+            });
+        }
+
+        function highlightCode(text) {
+            let currentIndex = 0;
+            let mode = 'html'; 
+            let output = '';
+            const len = text.length;
+
+            while (currentIndex < len) {
+                if (mode === 'script') {
+                    const scriptEnd = '</' + 'script>';
+                    let closeIdx = text.toLowerCase().indexOf(scriptEnd, currentIndex);
+                    if (closeIdx !== -1) {
+                        const content = text.substring(currentIndex, closeIdx);
+                        output += highlightJS(content);
+                        output += highlightTag(text.substring(closeIdx, closeIdx + 9));
+                        currentIndex = closeIdx + 9;
+                        mode = 'html';
+                    } else {
+                        output += highlightJS(text.substring(currentIndex));
+                        break;
+                    }
+                } else if (mode === 'style') {
+                    const styleEnd = '</' + 'style>';
+                    let closeIdx = text.toLowerCase().indexOf(styleEnd, currentIndex);
+                    if (closeIdx !== -1) {
+                        const content = text.substring(currentIndex, closeIdx);
+                        output += highlightCSS(content);
+                        output += highlightTag(text.substring(closeIdx, closeIdx + 8));
+                        currentIndex = closeIdx + 8;
+                        mode = 'html';
+                    } else {
+                        output += highlightCSS(text.substring(currentIndex));
+                        break;
+                    }
+                } else {
+                    const tagStartIdx = text.indexOf('<', currentIndex);
+                    if (tagStartIdx === -1) {
+                        output += highlightEntities(escapeHtml(text.substring(currentIndex)));
+                        break;
+                    }
+                    if (tagStartIdx > currentIndex) {
+                        output += highlightEntities(escapeHtml(text.substring(currentIndex, tagStartIdx)));
+                    }
+                    if (text.startsWith('<!--', tagStartIdx)) {
+                        const endCommentIdx = text.indexOf('-->', tagStartIdx);
+                        const end = endCommentIdx !== -1 ? endCommentIdx + 3 : len;
+                        output += `<span class="tok-comment">${escapeHtml(text.substring(tagStartIdx, end))}</span>`;
+                        currentIndex = end;
+                        continue;
+                    }
+                    const chunkLimit = Math.min(tagStartIdx + 1000, len);
+                    const chunk = text.substring(tagStartIdx, chunkLimit);
+                    const tagMatch = chunk.match(/^<(\/?)([^>\s]+)[^>]*>/); 
+                    if (tagMatch) {
+                        const fullTag = tagMatch[0];
+                        const isClosing = tagMatch[1] === '/';
+                        const rawTagName = tagMatch[2];
+                        const tagName = rawTagName.toLowerCase();
+                        const isSelfClosing = /\/[\s]*>$/.test(fullTag);
+                        
+                        // Check for comments preceding script/style tags
+                        const startSearch = Math.max(0, tagStartIdx - 500);
+                        const precedingChunk = text.substring(startSearch, tagStartIdx);
+                        const lastNewlineIndex = precedingChunk.lastIndexOf('\n');
+                        const linePrefix = lastNewlineIndex === -1 ? precedingChunk : precedingChunk.substring(lastNewlineIndex + 1);
+                        const isCommented = linePrefix.includes('//') || (linePrefix.lastIndexOf('/*') > linePrefix.lastIndexOf('*/'));
+
+                        output += highlightTag(fullTag);
+                        currentIndex = tagStartIdx + fullTag.length;
+                        if (!isClosing && !isSelfClosing && !isCommented) {
+                            if (rawTagName === 'script') mode = 'script';
+                            else if (tagName === 'style') mode = 'style';
+                        }
+                    } else {
+                        output += '&lt;';
+                        currentIndex = tagStartIdx + 1;
+                    }
+                }
+            }
+            return output;
+        }
+
+        function updateView() {
+            const text = editor.value;
+            const lineCount = text.split('\n').length;
+            lineNumbers.textContent = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
+            let highlighted = highlightCode(text);
+            if (text.endsWith('\n')) highlighted += ' '; 
+            highlightingPane.innerHTML = highlighted;
+        }
+
+        function syncScroll() {
+            lineNumbers.scrollTop = editor.scrollTop;
+            highlightingContainer.scrollTop = editor.scrollTop;
+            highlightingContainer.scrollLeft = editor.scrollLeft;
+        }
+
+        editor.addEventListener('input', updateView);
+        editor.addEventListener('scroll', syncScroll);
+        
+        // Listeners for URL Input
+        const urlInput = document.getElementById('urlInput');
+
+        urlInput.addEventListener('focus', function() {
+            this.value = '';
+        });
+
+        // Add Enter key listener
+        urlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); 
+                fetchWebpage();
+            }
+        });
+
+        // Initial setup
+        updateView();
+
+    </script>
+</body>
+</html>
